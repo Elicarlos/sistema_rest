@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 class Cliente(models.Model):
@@ -47,32 +48,27 @@ class Produto(models.Model):
     class Meta:
         ordering = ['created']  
 
-  
 
-class Pedido(models.Model):   
+
+
+class Venda(models.Model):      
     cliente = models.ForeignKey(Cliente, related_name='cliente', on_delete=models.CASCADE)
     vendedor = models.ForeignKey(Vendedor, related_name='vendedor', on_delete=models.CASCADE)
-    
     data_venda = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return str(self.pk)
 
 
-class ItensProdutos(models.Model):
-    pedido_id = models.ForeignKey(Pedido, on_delete=models.CASCADE)   
-    produto = models.ForeignKey(Produto, related_name='produtos', on_delete=models.CASCADE)
-    quantidade = models.IntegerField()
+class ItensVendas(models.Model):     
+    produto = models.ForeignKey(Produto, related_name='venda_produto', on_delete=models.CASCADE, null=True, blank=True)
+    venda_id = models.ForeignKey(Venda, related_name="itens_venda", on_delete=models.CASCADE)
+    quantidade = models.DecimalField(max_digits=13, decimal_places=2)
+    valor_unit = models.DecimalField(max_digits=13, decimal_places=2)
 
     def __str__(self):
         # pylint: disable=E1101
-        return self.produto.descricao 
-
-
-
-
-
-    
+        return self.produto.descricao     
 
 
 class Fornecedor(models.Model):
