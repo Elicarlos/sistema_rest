@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from caju.core.serializers import UserSerializer, GroupSerializer, ProdutoSerializer
+from caju.core.serializers import UserSerializer, GroupSerializer, ProdutoSerializer, FornecedorSerializer
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from caju.core.models import Produto
+from caju.core.models import Produto, Fornecedor
 
 
 
@@ -46,6 +46,25 @@ def produto_list(request):
 
 
 @csrf_exempt
+def fornecedor_list(request):
+    ''' Lista todos os fornecedores '''
+
+    if request.method == 'GET':
+        fornecedor = Fornecedor.objects.all()
+        serializer = FornecedorSerializer(fornecedor, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = FornecedorSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=404)
+
+
+
+@csrf_exempt
 def produto_detail(request, pk):
     """Recupere, atualize ou exclua um snippet de código."""
 
@@ -69,9 +88,13 @@ def produto_detail(request, pk):
             return JsonResponse(serializer.data)    
         return JsonResponse(serializer.errors, status=400)
 
-    elif request.method ==  'DELETE':
+    elif request.method == 'DELETE':
         produto.delete()
         return HttpResponse(status=204)
+
+
+
+
 
 
 

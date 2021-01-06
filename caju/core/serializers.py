@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from caju.core.models import Produto
+from caju.core.models import Produto, Fornecedor
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -38,4 +38,13 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class ProdutoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produto
-        fields = ['id', 'created', 'descricao', 'preco_compra', 'preco_venda']
+        fields = ['descricao',
+         'categoria', 'preco_compra', 
+         'preco_custo', 'preco_venda', 'estoque', 'estoque_minimo']
+
+
+
+class FornecedorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Fornecedor
+        fields = ['razao_social', 'fantasia', 'cnpj', 'inscricao_estadual','cep', 'endereco', 'bairro', 'cidade', 'estado']

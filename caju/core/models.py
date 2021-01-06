@@ -82,4 +82,7 @@ class Fornecedor(models.Model):
     bairro = models.CharField(max_length=30)
     cidade = models.CharField(max_length=30)
     estado = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.razao_social
     
