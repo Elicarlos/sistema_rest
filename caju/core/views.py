@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User, Group
+from django.views.generic import TemplateView
 from rest_framework import viewsets
 from rest_framework import permissions
 from caju.core.serializers import UserSerializer, GroupSerializer, ProdutoSerializer, FornecedorSerializer
@@ -6,6 +7,9 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from caju.core.models import Produto, Fornecedor
+
+class IndexView(TemplateView):
+    template_name = 'modelo.html'
 
 
 
