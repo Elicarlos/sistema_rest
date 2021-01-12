@@ -19,8 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from rest_framework import routers
-from caju.core import views
-from caju.cadastro.usuarios import views
+from caju.apps.core import views
+#from caju.apps.cadastro.usuarios import views
 
 # router = routers.DefaultRouter()
 # router.register(r'users', views.UserViewSet)
@@ -28,8 +28,8 @@ from caju.cadastro.usuarios import views
 
 urlpatterns = [
     # path('', include(router.urls)),
-    path('', include('caju.core.urls')),
-    path('', include('caju.cadastro.usuarios.urls')),
+    path('', include('caju.apps.core.urls')),
+    #path('', include('caju.cadastro.usuarios.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),   
     path('admin/', admin.site.urls) 
 
