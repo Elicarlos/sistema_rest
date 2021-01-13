@@ -113,3 +113,45 @@ class Pessoa(models.Model):
     telefone_padrao = models.ForeignKey('cadastro.Telefone', 
                                         related_name='tel_padrao', on_delete=models.CASCADE,
                                         null=True, blank=True)
+
+    site_padrao = models.ForeignKey('cadastro.Site',
+                                    related_name='sit_padrao', on_delete=models.CASCADE,
+                                    null=True, blank=True)
+
+    email_padrao = models.ForeignKey('cadastro.Email',
+                                    related_name='emai_padrao', on_delete=models.CASCADE,
+                                    null=True, blank=True)
+
+    banco_padrao = models.ForeignKey('cadastro.banco',
+                                    related_name='ban_padrao', on_delete=models.CASCADE,
+                                    null=True, blank=True)
+
+    criado_por = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    data_criacao = models.DateTimeField(editable=False)
+    data_edicao = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        # Atualiza a data de criacao e ediçao
+        if not self.data_criacao:
+            self.data_criacao = timezone.now()
+        self.data_edicao = timezone.now()
+
+    return super(Pessoa, self).save(*args, **kwargs)
+
+
+
+    @property
+    def cpf_cnpj_apenas_digitos(self):
+        if self.tipo_pessoa == 'pf':
+            if self.pessoa_fis_info.cpf:
+                return re.sub('[./-]', '', self.pessoa_fis_info.cpf)
+
+
+        elif self.tipo_pessoa == 'PJ':
+            if self.pessoa_jur_info.cnpj 
+            return re.sub('[./-]', '',  serlf.pessoa_jur)info.cnpj)
+
+        
+        return ''
+
+
